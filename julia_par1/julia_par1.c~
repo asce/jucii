@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
 		
 	clock_t comienzo=clock();
 	for (j=0;j<ty;j++)
-	  setRowColor(im[j],tx,j,oi,or,incr,inci,ci,cr);
+	  setColorRow(tx,j,im,oi,or,incr,inci,ci,cr);
 
 	 printf("Tiempo Conjunto Julia: %li milisegundos\n",(clock()-comienzo)*1000/CLOCKS_PER_SEC);
 	 createRawImage(tx,ty,im);

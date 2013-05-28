@@ -31,14 +31,26 @@ int main(int argc, char* argv[]) {
 	int i,j;
 	unsigned char color;
 	double secs;
-	
-	
+	int processes_number;
+	int rank;
+	int p;
 	// inicializacion estatica de la imagen		
 	char im[ty][tx];
+
+	secs = MPI_Wtime();
+	
+	if(MPI_Init(&argc,&argv) != MPI_SUCCESS){
+	  printf("Error al inicializar MPI\n");
+	  exit(0);
+	}
+
+	MPI_Comm_size(MPI_COMM_WORLD,&(processes_number));
+	MPI_Comm_rank(MPI_COMM_WORLD,&(rank));
+
+	
 		
-	clock_t comienzo=clock();
 	for (j=0;j<ty;j++)
-	  setRowColor(im[j],tx,j,oi,or,incr,inci,ci,cr);
+	  setColorRow(tx,j,im,oi,or,incr,inci,ci,cr);
 
 	 printf("Tiempo Conjunto Julia: %li milisegundos\n",(clock()-comienzo)*1000/CLOCKS_PER_SEC);
 	 createRawImage(tx,ty,im);

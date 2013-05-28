@@ -16,18 +16,6 @@ void get_args(int argc, char* argv[], long* pixel_size,float* c_value,
 void setColor(int i,int j,char* im_pix_ref, float oi, float or,
               float incr,float inci,float ci,float cr);
 
-/*
-void setColorRow(int tx,int row,char im[][tx], float oi, float or,
-                 float incr,float inci,float ci,float cr);
-*/
-void setRowColor(char* buff_row, int row_size, int row_number, float oi, float or,
-                 float incr,float inci,float ci,float cr);
-
-void createRawImage(int tx,int ty,char im[][tx]);
-
-
-
-
 int strpos(char *haystack, char *needle)
 {
   char *p = strstr(haystack, needle);
@@ -107,39 +95,4 @@ void setColor(int i,int j,char* im_pix_ref, float oi, float or,
       color++;
     }
   *im_pix_ref=color-1; // asigno el color                                     
-}
-/*
-void setColorRow(int tx,int row,char im[][tx], float oi, float or,
-		 float incr,float inci,float ci,float cr){
-  int i;
-  for(i = 0; i < tx; i++)
-    setColor(i,row,&im[row][i],oi,or,incr,inci,ci,cr);
-
-}
-*/
-void setRowColor(char* buff_row, int row_size, int row_number, float oi, float or,
-                 float incr,float inci,float ci,float cr){
-  //tx =  row_size;
-  int i;
-  for(i = 0; i < row_size; i++)
-    setColor(i,row_number,&buff_row[i],oi,or,incr,inci,ci,cr);
-
-}
-
-
-
-void createRawImage(int tx,int ty,char im[][tx]){
-  int i;
-  // paso los valores de la matriz al fichero Imagen                                          
-  FILE *fim;
-  fim=fopen("julia.raw","wb");
-  if (!fim)
-    {
-      printf("No se puede abrir el fichero de salida.\n");
-      exit(1);
-    }
-  for(i=ty-1;i>=0;i--)
-    fwrite(im[i],sizeof(char),tx,fim);
-  fclose(fim);
-
 }
