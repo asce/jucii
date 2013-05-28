@@ -1,0 +1,16 @@
+all: clean julia
+
+julia: julia_seq.c
+	gcc -o julia julia_seq.c
+
+image: julia.raw julia.gif
+
+julia.raw: julia
+	./julia
+
+julia.gif: vgaPalette.txt julia.raw
+	raw2gif -s 256 256 -p vgaPalette.txt julia.raw > julia.gif 
+
+clean:
+	rm julia julia.raw 
+
