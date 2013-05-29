@@ -1,0 +1,11 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use 5.010;
+
+my @lines=<>;
+my $lines_str = join('',@lines);
+
+while($lines_str =~ m/Tiempo\s*Conjunto\s*Julia:\s*(\d+(\.\d+)?)\s*milisegundos/gix){
+    say $1;
+}

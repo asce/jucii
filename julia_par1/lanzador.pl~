@@ -1,0 +1,18 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use 5.010;
+
+say "Copias: ";
+my $copias = <STDIN>;
+say "Veces: ";
+my $veces = <STDIN>;
+say "Pixel size: ";
+my $pixel_size = <STDIN>;
+$_ = "";
+my $orden = "mpirun -c $copias julia -p $pixel_size $pixel_size";
+System($orden);
+#$_ = $_ .`mpirun -c $copias julia -p $pixel_size $pixel_size`;
+
+#say;
