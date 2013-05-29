@@ -34,7 +34,10 @@ int main(int argc, char* argv[]) {
 	
 	
 	// inicializacion estatica de la imagen		
-	char im[ty][tx];
+	//char im[ty][tx];
+	char** im;
+	mallocImage(&im,ty,tx);
+	
 	clock_t t_ini, t_fin;		
 	t_ini = clock();
 	for (j=0;j<ty;j++)
@@ -45,6 +48,8 @@ int main(int argc, char* argv[]) {
 	 printf("Tiempo Conjunto Julia: %f milisegundos\n",secs*1000);
 	 createRawImage(tx,ty,im);
 	 
+
+	 freeImage(&im,ty);
 	return EXIT_SUCCESS;
 }
 
