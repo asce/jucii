@@ -15,6 +15,10 @@ void get_args(int argc, char* argv[], long* pixel_size,float* c_value,
               float* lower_left_eval_space, float* upper_right_eval_space);
 void setColor(int i,int j,char* im_pix_ref, float oi, float or,
               float incr,float inci,float ci,float cr);
+void mallocImage(char*** im,int ty,int tx);
+void mallocImageRow(char** row_buf,int row_size);
+void freeImage(char*** im,int ty);
+void freeImageRow(char** row_buff);
 
 /*
 void setColorRow(int tx,int row,char im[][tx], float oi, float or,
@@ -23,7 +27,8 @@ void setColorRow(int tx,int row,char im[][tx], float oi, float or,
 void setRowColor(char* buff_row, int row_size, int row_number, float oi, float or,
                  float incr,float inci,float ci,float cr);
 
-void createRawImage(int tx,int ty,char im[][tx]);
+//void createRawImage(int tx,int ty,char im[][tx]);
+void createRawImage(int tx,int ty,char** im);
 
 
 
@@ -58,21 +63,21 @@ void get_args(int argc, char* argv[], long* pixel_size,float* c_value,
     i = strpos(argv[1],"i")*2;
     s = strpos(argv[1],"s")*2;
 
-    if(p+1 < argc){
+    if( p > 0 && p+1 < argc){
       pixel_size[X] = atol(argv[p]);
       pixel_size[Y] = atol(argv[p+1]);
     }
 
-    if(c+1 < argc){
+    if( c > 0 && c+1 < argc){
       c_value[R] = atof(argv[c]);
       c_value[I] = atof(argv[c+1]);
     }
 
-    if(i+1 < argc){
+    if( i > 0 && i+1 < argc){
       lower_left_eval_space[R] = atof(argv[i]);
       lower_left_eval_space[I] = atof(argv[i+1]);
     }
-    if(s+1 < argc){
+    if( s > 0 && s+1 < argc){
       upper_right_eval_space[R] = atof(argv[s]);
       upper_right_eval_space[I] = atof(argv[s+1]);
     }
@@ -127,7 +132,7 @@ void setRowColor(char* buff_row, int row_size, int row_number, float oi, float o
 }
 
 
-
+/*
 void createRawImage(int tx,int ty,char im[][tx]){
   int i;
   // paso los valores de la matriz al fichero Imagen                                          
@@ -141,5 +146,58 @@ void createRawImage(int tx,int ty,char im[][tx]){
   for(i=ty-1;i>=0;i--)
     fwrite(im[i],sizeof(char),tx,fim);
   fclose(fim);
+
+}
+*/
+
+void createRawImage(int tx,int ty,char** im){
+  int i;
+  // paso los valores de la matriz al fichero Imagen                                          
+  FILE *fim;
+  fim=fopen("julia.raw","wb");
+  if (!fim)
+    {
+      printf("No se puede abrir el fichero de salida.\n");
+      exit(1);
+    }
+  for(i=ty-1;i>=0;i--)
+    fwrite(im[i],sizeof(char),tx,fim);
+  fclose(fim);
+
+}
+void mallocImage(char*** im,int ty,int tx){
+  int i;
+  //Inicialización dinámica de la imagen                                                
+  if (( *im = ( char** )malloc( ty*sizeof( char* ))) == NULL )
+    { printf("Error al reservando memoria para filas de im\n"); exit(0);}
+
+  for ( i = 0; i < ty; i++ )
+    {
+      if (( (*im)[i] = ( char* )malloc( tx*sizeof(char) )) == NULL )
+	{ printf("Error al reservando memoria para columnas de im\n"); exit(0); }
+    }
+
+}
+
+void mallocImageRow(char** row_buff,int row_size){
+
+  if (( *row_buff = ( char* )malloc( row_size*sizeof(char) )) == NULL )
+    { printf("Error al reservando memoria para row_buff\n"); exit(0); }
+
+}
+
+void freeImage(char*** im,int ty){
+  int i;
+  for ( i = 0; i < ty; i++ )
+    {
+      free((*im)[i]);
+    }
+  free(*im);
+
+}
+
+void freeImageRow(char** row_buff){
+
+  free(*row_buff);
 
 }

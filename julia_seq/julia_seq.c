@@ -35,12 +35,14 @@ int main(int argc, char* argv[]) {
 	
 	// inicializacion estatica de la imagen		
 	char im[ty][tx];
-		
-	clock_t comienzo=clock();
+	clock_t t_ini, t_fin;		
+	t_ini = clock();
 	for (j=0;j<ty;j++)
 	  setRowColor(im[j],tx,j,oi,or,incr,inci,ci,cr);
 
-	 printf("Tiempo Conjunto Julia: %li milisegundos\n",(clock()-comienzo)*1000/CLOCKS_PER_SEC);
+	t_fin = clock();
+	secs = (double)(t_fin - t_ini) / CLOCKS_PER_SEC;
+	 printf("Tiempo Conjunto Julia: %f milisegundos\n",secs*1000);
 	 createRawImage(tx,ty,im);
 	 
 	return EXIT_SUCCESS;

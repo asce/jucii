@@ -58,21 +58,21 @@ void get_args(int argc, char* argv[], long* pixel_size,float* c_value,
     i = strpos(argv[1],"i")*2;
     s = strpos(argv[1],"s")*2;
 
-    if(p+1 < argc){
+    if( p > 0 && p+1 < argc){
       pixel_size[X] = atol(argv[p]);
       pixel_size[Y] = atol(argv[p+1]);
     }
 
-    if(c+1 < argc){
+    if(c > 0 && c+1 < argc){
       c_value[R] = atof(argv[c]);
       c_value[I] = atof(argv[c+1]);
     }
 
-    if(i+1 < argc){
+    if(i > 0 && i+1 < argc){
       lower_left_eval_space[R] = atof(argv[i]);
       lower_left_eval_space[I] = atof(argv[i+1]);
     }
-    if(s+1 < argc){
+    if(s > 0 && s+1 < argc){
       upper_right_eval_space[R] = atof(argv[s]);
       upper_right_eval_space[I] = atof(argv[s+1]);
     }
